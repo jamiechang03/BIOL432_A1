@@ -5,8 +5,8 @@ Species100=sample(SpeciesNames,100,replace=T) # creates vector with 100 species 
 
 # Vectors for limb measurements:
 
-Limb_width=round(abs(rnorm(n=100, mean=5, sd=3)),digits=2) # creates limb width vector with only positive values, rounded to 2 decimal places
-Limb_length=round(abs(rnorm(n=100, mean=30, sd=10)),digits=2) # creates limb length vector with only positive, rounded to 2 decimal places
+Limb_width=round(abs(rnorm(n=100, mean=3, sd=2)),digits=2) # creates limb width vector with only positive values, rounded to 2 decimal places
+Limb_length=round(abs(rnorm(n=100, mean=30, sd=5)),digits=2) # creates limb length vector with only positive, rounded to 2 decimal places
 
 # Observer vector:
 
@@ -19,4 +19,4 @@ MyData=data.frame("Species"=Species100, "Limb_Width"=Limb_width, "Limb_Length"=L
 
 # Write to csv file:
 
-write.csv(MyData, "measurements.csv") # exports data frame to a csv file called measurements.csv
+write.csv(MyData, "measurements.csv", row.names = F) # exports data frame to a csv file called measurements.csv
