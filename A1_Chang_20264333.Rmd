@@ -1,0 +1,120 @@
+---
+title: "Assignment 1"
+output: html_document
+date: "2025-01-07"
+author: "Jamie Chang"
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+### GitHub Link:
+
+[View GitHub Repository](https://github.com/jamiechang03/BIOL432_A1)
+
+***
+
+### R Scripts
+
+The following R script generates the data frame and writes it to a csv file named "measurements.csv"
+
+```{r}
+source('dataGenerato.R')
+```
+
+The following R script adds a Limb Volume column to the data, and overwrites the "measurements.csv" file with the updated data.It also loads the dplyr package. 
+
+```{r message=FALSE}
+source('volumeEstimato.R')
+```
+
+***
+
+### Load & Check Data
+
+```{r results="hide"}
+ReportData=read.csv("measurements.csv")
+head(ReportData)
+tail(ReportData)
+dim(ReportData)
+summary(ReportData)
+str(ReportData)
+```
+
+***
+
+### Sorting Data
+
+```{r}
+ReportData = ReportData %>%
+  arrange(Species, Observer, Volume) # sort data by species, then by observer, then by limb volume
+```
+
+***
+
+### Average Species Volume Table
+
+```{r}
+avg_vol = ReportData %>%
+  group_by(Species) %>% # groups by species
+  summarize(Mean_Volume=mean(Volume) # calculates mean for each species
+)
+knitr::kable(avg_vol) # puts results into a knitted table
+```
+
+***
+
+### Number of observers for each species/observer combination
+
+```{r message=FALSE}
+observer_n = ReportData %>%
+  group_by(Species, Observer) %>% # groups by species and observer
+  summarize(n_Observations = n() # counts the number of observations for each observer/species combination
+) 
+knitr::kable(observer_n) # puts results into a knitted table
+```
+
+***
+
+### Boxplot
+
+```{r fig.cap="Boxplot showcasing the distribution of limb volume among species."}
+library(ggplot2)
+source("https://bit.ly/theme_pub")  
+theme_set(theme_pub()) 
+ggplot(aes(x=Species, y=Volume), data=ReportData) + geom_boxplot() + ylab("Limb Volume")
+```
+
+***
+
+### Final Plot
+
+```{r fig.cap="Histogram showcasing the distribution of limb volume, faceted by species.", message=FALSE}
+ggplot(data=ReportData, aes(x=Volume)) + geom_histogram() + facet_wrap(~Species) + ylab("Count") + xlab("Limb Volume")
+```
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
